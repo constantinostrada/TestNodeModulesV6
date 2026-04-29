@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { DomainException } from '@/domain/exceptions/DomainException';
+import { DuplicateSkuException } from '@/domain/exceptions/DuplicateSkuException';
 import { UserNotFoundException } from '@/domain/exceptions/UserNotFoundException';
 import { ValidationException } from '@/domain/exceptions/ValidationException';
 
@@ -22,7 +23,15 @@ export function noContent(): NextResponse {
   return new NextResponse(null, { status: 204 });
 }
 
+export function conflict(code: string, message: string): NextResponse {
+  return NextResponse.json({ success: false, code, message }, { status: 409 });
+}
+
 export function handleError(error: unknown): NextResponse {
+  if (error instanceof DuplicateSkuException) {
+    return conflict(error.code, error.message);
+  }
+
   if (error instanceof UserNotFoundException) {
     return NextResponse.json(
       { success: false, code: error.code, message: error.message },
