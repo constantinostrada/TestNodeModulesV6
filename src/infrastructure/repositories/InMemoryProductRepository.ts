@@ -15,6 +15,19 @@ export class InMemoryProductRepository implements IProductRepository {
     this.store = SEED_DATA.map((d) => Product.create(d));
   }
 
+  public async findBySku(sku: string): Promise<Product | null> {
+    return this.store.find((p) => p.sku === sku) ?? null;
+  }
+
+  public async save(product: Product): Promise<void> {
+    const idx = this.store.findIndex((p) => p.id === product.id);
+    if (idx !== -1) {
+      this.store[idx] = product;
+    } else {
+      this.store.push(product);
+    }
+  }
+
   public async findAll(filters?: ProductFilters): Promise<Product[]> {
     let results = [...this.store];
 

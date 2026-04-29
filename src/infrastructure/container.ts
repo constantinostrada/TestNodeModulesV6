@@ -8,10 +8,11 @@
  * implementation here — zero other files need to change.
  */
 
-import { ListProductsUseCase } from '@/application/use-cases/ListProductsUseCase';
+import { CreateProductUseCase } from '@/application/use-cases/CreateProductUseCase';
 import { CreateUserUseCase } from '@/application/use-cases/CreateUserUseCase';
 import { DeleteUserUseCase } from '@/application/use-cases/DeleteUserUseCase';
 import { GetUserUseCase } from '@/application/use-cases/GetUserUseCase';
+import { ListProductsUseCase } from '@/application/use-cases/ListProductsUseCase';
 import { ListUsersUseCase } from '@/application/use-cases/ListUsersUseCase';
 import { UpdateUserUseCase } from '@/application/use-cases/UpdateUserUseCase';
 
@@ -49,4 +50,8 @@ export function makeListUsersUseCase(): ListUsersUseCase {
 
 export function makeListProductsUseCase(): ListProductsUseCase {
   return new ListProductsUseCase(productRepository);
+}
+
+export function makeCreateProductUseCase(): CreateProductUseCase {
+  return new CreateProductUseCase(productRepository, idGenerator);
 }

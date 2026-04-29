@@ -116,7 +116,15 @@ export class Product {
     }
   }
 
+  private static readonly SKU_PATTERN = /^[A-Z0-9-]+$/;
+
   private static validateSku(sku: string): void {
+    if (!Product.SKU_PATTERN.test(sku)) {
+      throw new ValidationException(
+        'sku',
+        'must contain only uppercase letters, digits, and hyphens (e.g. ELEC-001)',
+      );
+    }
     if (!sku || sku.trim().length === 0) {
       throw new ValidationException('sku', 'must not be empty');
     }
