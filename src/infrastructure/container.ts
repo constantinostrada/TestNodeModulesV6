@@ -8,6 +8,7 @@
  * implementation here — zero other files need to change.
  */
 
+import { ListProductsUseCase } from '@/application/use-cases/ListProductsUseCase';
 import { CreateUserUseCase } from '@/application/use-cases/CreateUserUseCase';
 import { DeleteUserUseCase } from '@/application/use-cases/DeleteUserUseCase';
 import { GetUserUseCase } from '@/application/use-cases/GetUserUseCase';
@@ -15,9 +16,11 @@ import { ListUsersUseCase } from '@/application/use-cases/ListUsersUseCase';
 import { UpdateUserUseCase } from '@/application/use-cases/UpdateUserUseCase';
 
 import { UuidGenerator } from './id/UuidGenerator';
+import { InMemoryProductRepository } from './repositories/InMemoryProductRepository';
 import { InMemoryUserRepository } from './repositories/InMemoryUserRepository';
 
-// ── Singletons ────────────────────────────────────────────────────────────────
+// ── Singletons ────────────
+const productRepository = new InMemoryProductRepository();
 
 const userRepository = new InMemoryUserRepository();
 const idGenerator = new UuidGenerator();
@@ -42,4 +45,8 @@ export function makeDeleteUserUseCase(): DeleteUserUseCase {
 
 export function makeListUsersUseCase(): ListUsersUseCase {
   return new ListUsersUseCase(userRepository);
+}
+
+export function makeListProductsUseCase(): ListProductsUseCase {
+  return new ListProductsUseCase(productRepository);
 }
